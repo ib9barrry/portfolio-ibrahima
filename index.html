@@ -13,7 +13,126 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    /* ... styles inchangés ... */
+    /* === Thème robuste (sans propriétés expérimentales) === */
+    :root{
+      --bg: #0f1115;
+      --surface: #12161C;
+      --card: #161C23;
+      --text: #E6EDF3;
+      --muted: #9BA7B4;
+      --accent: #3B82F6;   /* bleu */
+      --accent-2: #10B981; /* vert */
+      --ring: rgba(148,163,184,.25);
+      --shadow: 0 10px 26px rgba(0,0,0,.35);
+      --radius: 16px;
+      --maxw: 1100px;
+    }
+    @media (prefers-color-scheme: light){
+      :root{
+        --bg: #F6F8FB;
+        --surface: #FFFFFF;
+        --card: #FFFFFF;
+        --text: #0B1220;
+        --muted: #5B6B7C;
+        --accent: #2563EB;
+        --accent-2: #059669;
+        --ring: rgba(15,23,42,.12);
+        --shadow: 0 16px 36px rgba(0,0,0,.08);
+      }
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", sans-serif;
+      background:
+        radial-gradient(900px 500px at 85% -10%, rgba(59,130,246,.18), transparent 60%),
+        radial-gradient(900px 500px at 10% 0%, rgba(16,185,129,.12), transparent 45%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    a{color:inherit;text-decoration:none}
+    .container{max-width:var(--maxw);margin:0 auto;padding:0 20px}
+    header{position:sticky;top:0;z-index:30;backdrop-filter:saturate(140%) blur(12px);background: rgba(0,0,0,.2);border-bottom:1px solid var(--ring)}
+    .nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+    .brand{display:flex;align-items:center;gap:.8rem;font-weight:800}
+    .logo{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent-2));box-shadow:var(--shadow)}
+    nav ul{display:flex;gap:18px;list-style:none;margin:0;padding:0}
+    nav a{padding:8px 12px;border-radius:12px}
+    nav a:hover{background:rgba(59,130,246,.15)}
+
+    .hero{padding:84px 0 36px}
+    .hero-grid{display:grid;grid-template-columns: 1.2fr .8fr;gap:32px;align-items:center}
+    .kicker{font-size:.9rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+    h1{font-size: clamp(1.9rem, 3.6vw, 3rem);line-height:1.15;margin:.4rem 0 1rem}
+    .lead{font-size: clamp(1rem, 1.6vw, 1.15rem);color:var(--muted)}
+    .cta{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;gap:10px;font-weight:600;border-radius:14px;padding:12px 16px;border:1px solid transparent;transition:transform .15s ease}
+    .btn.primary{background:var(--accent);color:#fff}
+    .btn.ghost{border-color:rgba(59,130,246,.35);background:rgba(59,130,246,.08)}
+    .btn:hover{transform:translateY(-1px)}
+
+    /* Avatar monogramme (remplace toute photo de personne) */
+    .avatar{
+      width: 160px; height: 160px; border-radius: 28px; overflow:hidden; border:1px solid var(--ring);
+      box-shadow: var(--shadow);
+      background: linear-gradient(135deg, rgba(59,130,246,.55), rgba(16,185,129,.55));
+      display:flex;align-items:center;justify-content:center;
+    }
+    .avatar span{font-weight:800;font-size:44px;color:#fff;letter-spacing:.02em}
+
+    .section{padding:48px 0}
+    .section h2{font-size: clamp(1.4rem, 2.4vw, 2rem);margin:0 0 18px}
+    .sub{color:var(--muted);margin-top:-6px;margin-bottom:22px}
+
+    .card-grid{display:grid;grid-template-columns: repeat(12, 1fr);gap:18px}
+    .card{grid-column: span 6; background: var(--card); border:1px solid var(--ring); border-radius:var(--radius); padding:20px; box-shadow: var(--shadow)}
+    .card:hover{outline:1px solid rgba(59,130,246,.5)}
+    @media (max-width: 900px){
+      .hero-grid{grid-template-columns: 1fr}
+      .card{grid-column: 1/-1}
+      nav ul{display:none}
+      .menu-btn{display:inline-flex}
+    }
+
+    .pill{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;border:1px solid var(--ring);background:rgba(22,28,35,.6);font-size:.9rem}
+    .pill svg{width:16px;height:16px}
+
+    .skills{display:flex;flex-wrap:wrap;gap:10px}
+    .skill{border:1px solid var(--ring);padding:10px 12px;border-radius:12px;background:rgba(148,163,184,.08)}
+
+    .timeline{position:relative;margin:14px 0}
+    .timeline:before{content:"";position:absolute;left:10px;top:0;bottom:0;width:2px;background:rgba(59,130,246,.35)}
+    .tl-item{position:relative;padding-left:36px;margin:18px 0}
+    .tl-item:before{content:"";position:absolute;left:5px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px rgba(59,130,246,.25)}
+
+    /* Vignettes de projets sans photos (placeholders stylés) */
+    .project{display:grid;grid-template-columns: 1fr .7fr;gap:16px;align-items:center}
+    .thumb{width:100%;height:170px;border-radius:14px;border:1px solid var(--ring);box-shadow:var(--shadow);position:relative;overflow:hidden;background:linear-gradient(135deg, rgba(59,130,246,.25), rgba(16,185,129,.25));}
+    .thumb:after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(45deg, rgba(255,255,255,.04) 0, rgba(255,255,255,.04) 8px, transparent 8px, transparent 16px)}
+    .thumb-label{position:absolute;left:12px;bottom:10px;background:rgba(0,0,0,.35);color:#fff;padding:6px 10px;border-radius:10px;font:600 12px/1 Inter}
+
+    .tag{display:inline-block;margin-right:8px;margin-top:8px;font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size:.75rem; padding:4px 8px; border:1px dashed var(--ring); border-radius:999px}
+
+    .contact-card{display:grid;grid-template-columns: 1fr 1fr;gap:18px}
+    .contact-card .card{grid-column: auto}
+    @media (max-width: 720px){.project{grid-template-columns:1fr} .contact-card{grid-template-columns: 1fr}}
+
+    footer{padding:28px 0;color:var(--muted);border-top:1px solid var(--ring)}
+
+    /* Print */
+    @media print{
+      header, .cta, .social, .menu-btn{display:none !important}
+      body{background:white}
+      .card{break-inside: avoid}
+    }
+
+    /* Menu mobile */
+    .menu-btn{display:none;align-items:center;gap:8px;border:1px solid var(--ring);padding:8px 12px;border-radius:12px;background:var(--card)}
+    .mobile-nav{display:none}
+    .mobile-nav.open{display:block}
+    .mobile-nav a{display:block;padding:10px 12px;border-radius:10px}
+    .mobile-nav a:hover{background:rgba(59,130,246,.15)}
   </style>
 </head>
 <body>
@@ -49,11 +168,10 @@
       <section>
         <p class="kicker">Data Science • RGPH‑4 • IA</p>
         <h1>Bonjour, je suis <strong>BARRY IBRAHIMA</strong> —
-          <span style="white-space:nowrap">Data Scientist</span>&
-          <span style="white-space:nowrap">Développeur de Logiciel</span> 
-          <span style="white-space:nowrap">Formateur au Recensement Général de la Population et de l'Habitation RGPH‑4</span>&
-          <span>Contrôleur Recensement Général de la Population et de l'HabitationRGPH‑4.</span></h1>
-        <p class="lead">J’analyse, structure et valorise les données pour appuyer la décision. Expérience en <strong>supervision d’équipes</strong>, <strong>collecte et contrôle de qualité de données</strong> (RGPH‑4), et <strong>développement de solutions IA</strong> (vision par ordinateur, LLM).</p>
+          <span style="white-space:nowrap">Data Scientist</span>,
+          <span style="white-space:nowrap">Contrôleur adjoint RGPH‑4</span> &
+          <span style="white-space:nowrap">Développeur IA</span>.</h1>
+        <p class="lead">J’analyse, structure et valorise les données pour appuyer la décision. Expérience en <strong>supervision d’équipes</strong>, <strong>collecte et contrôle qualité</strong> (RGPH‑4), et <strong>développement de solutions IA</strong> (vision par ordinateur, applications mobiles, APIs).</p>
         <div class="cta">
           <a class="btn primary" href="#contact">Me contacter</a>
           <a class="btn ghost" href="#projets">Voir mes projets</a>
@@ -69,23 +187,214 @@
         </div>
       </section>
       <aside style="display:flex;justify-content:center">
-        <div class="avatar" aria-label="Photo de profil">
-          <img alt="Portrait" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=800&auto=format&fit=crop" />
+        <div class="avatar" aria-label="Monogramme">
+          <span>BI</span>
         </div>
       </aside>
     </div>
   </main>
 
-  <!-- ... autres sections inchangées ... -->
+  <section id="a-propos" class="section">
+    <div class="container card" style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+      <div>
+        <h2>À propos</h2>
+        <p>Je conçois des pipelines de données robustes, des tableaux de bord clairs et des prototypes IA prêts pour le terrain. Au RGPH‑4, j’ai assuré la <strong>supervision nocturne</strong>, la <strong>sauvegarde/synchronisation</strong> et le <strong>contrôle qualité</strong> des données. Côté tech, je développe des <em>APIs</em> et des applications <em>Web/Mobile</em> pour transformer les données en décisions.</p>
+        <ul>
+          <li>Python (pandas, scikit‑learn), FastAPI / Flask, Django REST</li>
+          <li>Front : React, Next.js • Mobile : React Native</li>
+          <li>Stats & Enquêtes : SPSS, Stata, CSPro</li>
+        </ul>
+      </div>
+      <div>
+        <h2 style="margin-bottom:8px">En bref</h2>
+        <div class="skills">
+          <span class="skill">Contrôle qualité & supervision</span>
+          <span class="skill">Data Engineering</span>
+          <span class="skill">Machine/Deep Learning</span>
+          <span class="skill">Vision par ordinateur</span>
+          <span class="skill">CI/CD & Git</span>
+          <span class="skill">Gestion d’équipe</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="competences" class="section container">
+    <h2>Compétences</h2>
+    <p class="sub">Stack technique et outils principaux</p>
+    <div class="card-grid">
+      <div class="card">
+        <h3>Data & IA</h3>
+        <div class="skills">
+          <span class="skill">Python</span>
+          <span class="skill">pandas</span>
+          <span class="skill">scikit‑learn</span>
+          <span class="skill">OpenCV</span>
+          <span class="skill">PyTorch</span>
+          <span class="skill">NLP basique</span>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Web & Mobile</h3>
+        <div class="skills">
+          <span class="skill">React</span>
+          <span class="skill">Next.js</span>
+          <span class="skill">React Native</span>
+          <span class="skill">Tailwind CSS</span>
+          <span class="skill">FastAPI</span>
+          <span class="skill">Django REST</span>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Statistiques & Enquêtes</h3>
+        <div class="skills">
+          <span class="skill">SPSS</span>
+          <span class="skill">Stata</span>
+          <span class="skill">CSPro</span>
+          <span class="skill">Qualité des données</span>
+          <span class="skill">Échantillonnage</span>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Ops & Collaboration</h3>
+        <div class="skills">
+          <span class="skill">Git / GitHub</span>
+          <span class="skill">Docker (bases)</span>
+          <span class="skill">CI/CD (bases)</span>
+          <span class="skill">Notion</span>
+          <span class="skill">Trello</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projets" class="section container">
+    <h2>Projets</h2>
+    <p class="sub">Sélection de travaux concrets. Liens démo/code sur demande.</p>
+
+    <div class="card project">
+      <div>
+        <h3>Application mobile de collecte audio</h3>
+        <p>App React Native pour collecter des données audio et les synchroniser automatiquement vers une API/stockage cloud. Conçue pour la création de jeux de données et l’entraînement de modèles de reconnaissance vocale.</p>
+        <div>
+          <span class="tag">React Native</span>
+          <span class="tag">Audio</span>
+          <span class="tag">API</span>
+        </div>
+      </div>
+      <div class="thumb"><span class="thumb-label">Aperçu projet</span></div>
+    </div>
+
+    <div class="card project">
+      <div>
+        <h3>Surveillance biodiversité par drones (PoC)</h3>
+        <p>Prototype de vision par ordinateur pour détecter des espèces/présences animales en forêt (ex. Nimba), avec objectif de suivi non‑intrusif et d’alertes. Pipeline d’annotation, entraînement et inférence embarquée.</p>
+        <div>
+          <span class="tag">OpenCV</span>
+          <span class="tag">PyTorch</span>
+          <span class="tag">Edge AI</span>
+        </div>
+      </div>
+      <div class="thumb"><span class="thumb-label">Démo PoC</span></div>
+    </div>
+
+    <div class="card project">
+      <div>
+        <h3>Détection d’objets – sécurité & défense (PoC)</h3>
+        <p>Démo technique de détection d’objets pertinents pour l’aide à la décision (zones à risque, équipements, etc.). Objectif : illustrer la faisabilité locale et la performance en conditions réelles.</p>
+        <div>
+          <span class="tag">Computer Vision</span>
+          <span class="tag">MLOps (bases)</span>
+          <span class="tag">FastAPI</span>
+        </div>
+      </div>
+      <div class="thumb"><span class="thumb-label">Prototype</span></div>
+    </div>
+
+    <div class="card project">
+      <div>
+        <h3>Site web de clinique (Next.js)</h3>
+        <p>Projet full‑stack pour informatiser une clinique : gestion des patients, RDV, dossiers et rapports. Maquettes modernes, composants réutilisables, et base API sécurisée.</p>
+        <div>
+          <span class="tag">Next.js</span>
+          <span class="tag">React</span>
+          <span class="tag">Tailwind</span>
+        </div>
+      </div>
+      <div class="thumb"><span class="thumb-label">Maquettes</span></div>
+    </div>
+  </section>
+
+  <section id="experiences" class="section container">
+    <h2>Expériences</h2>
+    <div class="card">
+      <div class="timeline">
+        <div class="tl-item">
+          <h3>Contrôleur adjoint – RGPH‑4 (BCR)</h3>
+          <p class="sub">2025 • Conakry</p>
+          <ul>
+            <li>Supervision de l’équipe de nuit, contrôle qualité post‑collecte.</li>
+            <li>Agent de synchronisation et de sauvegarde des données.</li>
+            <li>Coordination avec formateurs et CE pour fiabilité/exhaustivité.</li>
+          </ul>
+        </div>
+        <div class="tl-item">
+          <h3>Formateur – RGPH‑4</h3>
+          <p class="sub">2025 • Conakry</p>
+          <ul>
+            <li>Animation de sessions, évaluations quotidiennes, accompagnement.</li>
+            <li>Appui logistique et technique sur outils de collecte.</li>
+          </ul>
+        </div>
+        <div class="tl-item">
+          <h3>Développeur & Data Scientist – Projets personnels</h3>
+          <p class="sub">2022–2025</p>
+          <ul>
+            <li>Applications Web/Mobile, APIs ML, pipelines de données.</li>
+            <li>Expérimentations IA pour biodiversité et sécurité.</li>
+          </ul>
+        </div>
+        <div class="tl-item">
+          <h3>Entrepreneuriat – ELF‑BTP & Services</h3>
+          <p class="sub">Activités secondaires</p>
+          <ul>
+            <li>Gestion de prestations et projets import‑export.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="formations" class="section container">
+    <h2>Formations & Certificats</h2>
+    <div class="card-grid">
+      <div class="card">
+        <h3>Certificat RGPD (Alison)</h3>
+        <p>Achèvement le <strong>12 mai 2022</strong>. Compréhension des principes clés, base conformité.</p>
+      </div>
+      <div class="card">
+        <h3>Data Science & IA</h3>
+        <p>Parcours continu : Python, ML/DL, Computer Vision, MLOps (bases), projets appliqués.</p>
+      </div>
+      <div class="card">
+        <h3>Outils d’enquêtes statistiques</h3>
+        <p>SPSS, Stata, CSPro • Méthodes de collecte, contrôle qualité, échantillonnage.</p>
+      </div>
+      <div class="card">
+        <h3>Web & Mobile</h3>
+        <p>React, Next.js, React Native • Bonnes pratiques UI, accessibilité, performances.</p>
+      </div>
+    </div>
+  </section>
 
   <section id="contact" class="section container">
     <h2>Contact</h2>
-    <p class="sub">Disponible pour missions data/IA, appui aux enquêtes et projets</p>
+    <p class="sub">Disponible pour missions data/IA, appui aux enquêtes et projets Web/Mobile.</p>
     <div class="contact-card">
       <div class="card">
         <h3>Me joindre</h3>
         <p>Email : <a href="mailto:ibrahimabarry01@gmail.com">ibrahimabarry01@gmail.com</a><br>
-        Téléphone : <span title="Remplacer par votre numéro">+224 613 08 94 07</span><br>
+        Téléphone : <span title="Remplacer par votre numéro">+224 XX XX XX XX</span><br>
         LinkedIn : <a href="https://www.linkedin.com/in/ibrahimabarry01/" target="_blank" rel="noreferrer noopener">/in/ibrahimabarry01/</a><br>
         GitHub : <a href="https://github.com/ib9barrry" target="_blank" rel="noreferrer noopener">github.com/ib9barrry</a></p>
         <p>
@@ -96,7 +405,7 @@
       <div class="card">
         <h3>Disponibilité</h3>
         <ul>
-          <li>Contrats long - court et missions freelance</li>
+          <li>Contrats courts et missions freelance</li>
           <li>Collaboration à distance ou sur site (Conakry)</li>
           <li>Projets data, IA, enquêtes, apps Web/Mobile</li>
         </ul>
@@ -113,7 +422,9 @@
   </footer>
 
   <script>
+    // Année en pied de page
     document.getElementById('year').textContent = new Date().getFullYear();
+    // Menu mobile
     const btn = document.getElementById('menuBtn');
     const nav = document.getElementById('mobileNav');
     btn?.addEventListener('click', () => {
@@ -123,3 +434,4 @@
   </script>
 </body>
 </html>
+
